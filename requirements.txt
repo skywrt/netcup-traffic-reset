@@ -1,0 +1,4 @@
+python-dotenv~=1.0.1
+netcup-webservice
+qbittorrent-api
+requests
