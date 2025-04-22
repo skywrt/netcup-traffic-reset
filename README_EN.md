@@ -1,6 +1,6 @@
 # Netcup Traffic Reset
 
-[中文版本](README.md) | English Version
+English Version
 
 ## Netcup Traffic Reset
 
@@ -73,6 +73,9 @@ Before running the project, please configure the environment variables as follow
 
 ### Directly Launch Using the kafuuchino520/netcup-traffic-reset Image
 
+**Note: The pre-built Docker image is only for `amd64` architecture machines. Users with `arm64` architecture, please refer to the previous section "Git Clone Repository for Self-Building".**
+**Warning: Do not deploy this project on the Netcup server that needs to be restarted!**
+
 You can directly use the pre-built image provided on Docker Hub to run:
 
 ```bash
@@ -82,6 +85,39 @@ docker run --rm -d \
   kafuuchino520/netcup-traffic-reset:latest
 ```
 
+---
+
+## Multi-Server Deployment
+
+You can manage multiple Netcup servers by creating multiple `.env` files and specifying them separately to the Docker container.
+
+1. **Create Different `.env` Files**
+
+    For example, create a `.env` file for each server, such as `server1.env`, `server2.env`, etc.:
+
+    ```
+    ├── server1.env
+    └── server2.env
+    ```
+
+    In each `.env` file, configure the Netcup API information and qBittorrent information for the corresponding server.
+
+2. **Run Docker Container and Specify Different `.env` Files**
+
+    Use the `--env-file` parameter to specify different `.env` files to start the Docker container:
+
+    ```bash
+    docker run --rm -d \
+      --env-file server1.env \
+      --name netcup-traffic-reset-server1 \
+      kafuuchino520/netcup-traffic-reset:latest
+    
+    docker run --rm -d \
+      --env-file server2.env \
+      --name netcup-traffic-reset-server2 \
+      kafuuchino520/netcup-traffic-reset:latest
+    ```
+    For self-built images, please replace `kafuuchino520/netcup-traffic-reset:latest` with `netcup-traffic-reset:latest`
 ---
 
 ## Functionality Description
@@ -116,6 +152,7 @@ docker run --rm -d \
 -   **Simple Configuration**: Manage all configuration items centrally through the `.env` file.
 -   **Convenient Deployment**: Use the official Docker image without the need for additional building.
 -   **Automated Process**: Supports scheduled tasks, making it easy to implement server traffic reset and torrent task management.
+-   **Supports Multi-Server Management**: Easily manage multiple Netcup servers with different `.env` files.
 
 ## Project References
 
